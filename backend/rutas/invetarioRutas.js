@@ -29,16 +29,17 @@ router.get('/', async (req, res) => {
 
 
 // Buscar productos por nombre (exacto)
-router.get('/', async (req, res) => {
+router.get('/buscar', async (req, res) => {
   const { nombre } = req.query;
 
-  if (!nombre) {
-    return res.status(400).json({ error: 'El parámetro nombre es obligatorio' });
+ if (!nombre || !nombre.trim()) {
+    return res.status(400).json({ error: 'El parámetro nombre es obligatorio y no puede estar vacío' });
   }
+
 
   try {
     // Buscar productos cuyo nombre coincida exactamente (puedes hacerlo insensible a mayúsculas)
-    const productos = await Produ.find({ nombre: new RegExp('^' + nombre + '$', 'i') });
+    const productos = await Produ.find({ nombre: new RegExp(nombre, 'i') });
     
     res.json(productos);
   } catch (error) {

@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
-
 import Inicio from "./componentes/inicio";
 import Login from "./componentes/iniciarSesion";
 import Registro from "./componentes/registro";
@@ -10,6 +9,9 @@ import EditarU from "./componentes/editarUsuario";
 import RegistrarUso from "./componentes/usoProd";
 import Notificaciones from "./componentes/notificaciones";
 import EditarProducto from "./componentes/editarProd";
+import UsoProductos from "./componentes/verUsoProd";
+import InicioA from "./componentes/inicioA";
+import InicioE from "./componentes/inicioE";
 import logo from './assets/logo.png';
 import './App.css';
 
@@ -31,13 +33,16 @@ function App() {
           <Route path="/vivians/inicio" element = {<Inicio/>}/>
           <Route path="/vivinas/iniciarsesion" element={ <Login/>}/>
           <Route path="/vivians/registrar" element = {<Registro/>}/>
-          <Route path="/vivians/empleado" element = {<InventarioE/>}/>
+          <Route path="/vivians/empleado" element = {<InicioE/>}/>
+          <Route path="/vivians/empleado/inventario" element = {<InventarioE/>}/>
           <Route path="/vivians/empleado/registraruso" element = {<RegistrarUso/>}/>
-          <Route path="/vivians/admin" element = {<InventarioA/>}/>
+          <Route path="/vivians/admin" element = {<InicioA/>}/>
+          <Route path="/vivians/admin/inventario" element = {<InventarioA/>}/>
           <Route path="/vivians/admin/users" element = {<GestUsuarios/>}/>
           <Route path="/vivians/admin/users/:id" element = {<EditarU/>}/>
           <Route path="/vivians/admin/notificaciones" element = {<Notificaciones/>}/>
-          <Route path="/vivians/admin/editarProducto/:id" element = {<EditarProducto/>}/>
+          <Route path="/vivians/admin/inventario/editarProducto/:id" element = {<EditarProducto/>}/>
+          <Route path="/vivians/admin/usoprod" element = {<UsoProductos/>}/>
          
         </Routes>       
       <footer>

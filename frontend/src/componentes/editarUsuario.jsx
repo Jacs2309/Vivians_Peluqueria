@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+
+import NavBarAdmin from './navBarAdmin';
+import Aside from './aside';
 
 function EditarU() {
   const { id } = useParams();
@@ -74,23 +77,9 @@ function EditarU() {
 
   return (
     <>
-    <nav>
-        <div>
-            <ul className="nav-menu">
-                <li className="nav-item">
-                <Link to={'/vivians/inicio'}>Cerrar sesion</Link>
-                </li>
-                <li className="nav-item">
-                <Link to={'/vivians/admin'}>Inventario</Link>
-                </li>
-                <li className="nav-item">
-                <Link to={'/vivians/admin/users'}>Gestion de usuarios</Link>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <main style={{justifyContent:'center'}}>
-        <section style={{margin:'0'}}>
+    <NavBarAdmin/>
+    <main >
+        <section>
             <h2>Actualizar Usuario</h2>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             {success && <p style={{ color: 'green' }}>{success}</p>}
@@ -163,6 +152,7 @@ function EditarU() {
                 <button type="submit">Registrar</button>
             </form>
         </section>
+        <Aside/>
     </main>
     </>
   );

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import NavBarInicio from './navBarInicio';
 
 function Registro() {
   const [nombre, setNombre] = useState('');
@@ -50,15 +50,7 @@ function Registro() {
 
   return (
     <>
-    <nav>
-        <div>
-            <ul className="nav-menu">
-                <li className="nav-item">
-                <Link to={'/vivians/inicio'}>Inicio</Link>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <NavBarInicio/>
     <main style={{justifyContent:'center'}}>
         <section style={{margin:'0'}}>
             <h2>Registrar Usuario</h2>

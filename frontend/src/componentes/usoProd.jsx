@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import esmalte from '../assets/inicio/esmalte.png'
-import sh from '../assets/inicio/shampoo.jpeg'
-import uñas from '../assets/inicio/uñas.jpg'
-import acond from '../assets/inicio/acond.jpeg'
-import tinte from '../assets/inicio/tinte.jpeg'
-import aceite from '../assets/inicio/aceite.png'
+import NavBarEmp from './navBarEmp';
+import Aside from './aside';
 
 function RegistrarUso() {
   const [nombreProducto, setNombreProducto] = useState('');
@@ -24,7 +19,7 @@ function RegistrarUso() {
 
     try {
       //Buscar producto por nombre
-      const resProducto = await fetch(`http://localhost:5000/api/inventario?nombre=${encodeURIComponent(nombreProducto)}`);
+      const resProducto = await fetch(`http://localhost:5000/api/inventario/buscar?nombre=${encodeURIComponent(nombreProducto)}`);
       if (!resProducto.ok) throw new Error('No se pudo buscar el producto');
       const producto = await resProducto.json();
 
@@ -32,6 +27,7 @@ function RegistrarUso() {
         setError('El producto no existe en el inventario');
         return;
       }
+      console.log(producto);
 
       const prod = producto[0]; // suponiendo que devuelve un array con los productos encontrados
 
@@ -97,19 +93,7 @@ function RegistrarUso() {
 
   return (
     <>
-    <nav>
-        <ul className="nav-menu">
-            <li className="nav-item">
-            <Link to={'/vivians/inicio'}>Cerrar sesion</Link>
-            </li>
-            <li className="nav-item">
-            <Link to={'/vivians/empleado'}>Inventario</Link>
-            </li>
-            <li className="nav-item">
-            <Link to={'/vivians/empleado/registraruso'}>regsitrar uso Producto</Link>
-            </li>
-        </ul>
-    </nav>
+    <NavBarEmp/>
     <main>
     <section >
       <h2 style={{ textAlign: 'center' }}>Registrar Uso de Productos</h2>
@@ -139,8 +123,12 @@ function RegistrarUso() {
             required
           />
           <select value={unidad} onChange={(e) => setUnidad(e.target.value)} style={{ marginLeft: '0.5rem' }}>
-            <option value="mg">mg</option>
             <option value="ml">ml</option>
+            <option value="Cajas">Cajas</option>
+            <option value="Botellas">Botellas</option>
+            <option value="Frascos">Frascos</option>
+            <option value="Tubos">Tubos</option>
+            <option value="Unidades">Unidades</option>
           </select>
         </div>
 
@@ -170,35 +158,7 @@ function RegistrarUso() {
         </div>
       </form>
     </section>
-    <aside>
-        <h2>Nuestros Productos</h2>
-        <div className="product-grid">
-            <div>
-            <img src={esmalte} className="placeholder" alt="Producto" />
-            <p>Esmaltes</p>
-            </div>
-            <div>
-            <img src={sh} className="placeholder" alt="Producto" />
-            <p>Shampoo</p>
-            </div>
-            <div>
-            <img src={uñas} className="placeholder" alt="Producto" />
-            <p>Uñas Acrilicas</p>
-            </div>
-            <div>
-            <img src={acond} className="placeholder" alt="Producto" />
-            <p>Acondicionador</p>
-            </div>
-            <div>
-            <img src={tinte} className="placeholder" alt="Producto" />
-            <p>Tintes para Cabello</p>
-            </div>
-            <div>
-            <img src={aceite} className="placeholder" alt="Producto" />
-            <p>Aceites hidratantes</p>
-            </div>
-        </div>
-    </aside>
+    <Aside/>
     </main>
     </>
     

@@ -1,5 +1,4 @@
-
-import { Link } from "react-router-dom";
+import NavBarInicio from './navBarInicio';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -46,15 +45,7 @@ function Login() {
 
   return (
     <>
-     <nav>
-        <div>
-            <ul className="nav-menu">
-                <li className="nav-item">
-                <Link to={'/vivians/inicio'}>Inicio</Link>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <NavBarInicio/>
     <main style={{justifyContent:'center'}}>
         <section style={{margin:'0'}}>
             <h2>Iniciar Sesión</h2>
