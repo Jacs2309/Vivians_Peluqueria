@@ -1,3 +1,4 @@
+const bp = require('bcrypt');
 const express = require('express');
 const router = express.Router();
 const User = require('../modelos/usuariosModel');
@@ -6,7 +7,11 @@ const User = require('../modelos/usuariosModel');
 router.post('/', async (req, res) => {
   try {
     const { nombre, correo, contraseña, tipo } = req.body;
-    const newUser = new User({ nombre, correo, contraseña, tipo });
+
+    const salt = await bp.genSalt(10)
+    const contraseñacodi = await bp.hash(contraseña, salt)
+
+    const newUser = new User({ nombre, correo, contraseña:contraseñacodi, tipo });
     await newUser.save();
     res.status(201).json(newUser);
   } catch (error) {
@@ -42,9 +47,18 @@ router.get('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const { nombre, correo, contraseña, tipo } = req.body;
+    const nuevosdatos = {nombre, correo, tipo};
+    
+    if (contraseña) {
+      const salt = await bp.genSalt(10);
+      const contraseñacodi = await bp.hash(contraseña, salt);
+      nuevosdatos.contraseña = contraseñacodi;
+    }
+
+
     const user = await User.findByIdAndUpdate(
       req.params.id,
-      { nombre, correo, contraseña, tipo },
+      nuevosdatos,
       { new: true }
     );
     if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
@@ -69,9 +83,19 @@ router.delete('/:id', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   const { correo, contraseña } = req.body;
-  const user = await User.findOne({ correo, contraseña }); // *OJO: idealmente debería ir cifrada
-  if (!user) return res.status(401).json({ error: 'Credenciales inválidas' });
-  res.json(user); // o mejor: solo { tipo: user.tipo, nombre: user.nombre, _id: user._id }
+  try{
+    const user = await User.findOne({ correo });
+    if (!user) return res.status(401).json({ error: 'Credenciales inválidas' });
+
+    const soniguales = await bp.compare(contraseña, user.contraseña);
+     if (!soniguales) return res.status(401).json({ error: 'Credenciales inválidas' });
+
+     res.json(user);
+  }catch (e){
+    console.error(e);
+    res,json({error: "error en el servidor"})
+  }
+ 
 });
 
 module.exports = router;

@@ -29,7 +29,6 @@ function Login() {
 
       const user = await response.json();
 
-      // Guardar en localStorage si quieres
       localStorage.setItem('usuario', JSON.stringify(user));
 
       if (user.tipo === 'admin') {
